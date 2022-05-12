@@ -1,1 +1,1 @@
-# Social_Activity_Planner
+# ActivityBud
