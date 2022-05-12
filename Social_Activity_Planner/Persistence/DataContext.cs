@@ -5,8 +5,14 @@ namespace Persistence
 {
     public class DataContext : DbContext
     {
-        public DataContext(DbContextOptions options) : base(options)
+        public DataContext() { }
+        public DataContext(DbContextOptions options) : base(options){}
+        protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
+            if (!options.IsConfigured)
+            {
+                options.UseSqlite("A FALLBACK CONNECTION STRING");
+            }
         }
 
         public DbSet<Activity> MyProperty { get; set; }
