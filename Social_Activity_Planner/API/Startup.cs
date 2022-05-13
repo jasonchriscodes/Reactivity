@@ -1,3 +1,4 @@
+using API.Extensions;
 using Application.Activities;
 using Application.Core;
 using AutoMapper;
@@ -21,28 +22,7 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPIv5", Version = "v1" });
-            });
-            services.AddDbContext<DataContext>(opt =>
-            {
-                opt.UseSqlite(this.config.GetConnectionString("DefaultConnection"));
-            });
-            // add Cors is required when trying to access resource from a different domain
-            // client app: localhost port 3000, while API server localhost port 5000
-            // return header with response to allow any method, get, posts, put, option, etc.
-            // with origin of client app
-            // if publish online, AddCors become irrelevant because client app will request from the same domain
-            services.AddCors(opt =>
-            {
-                opt.AddPolicy("CorsPolicy", policy =>
-                {
-                    policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3000");
-                });
-            });
-            services.AddMediatR(typeof(List.Handler).Assembly); // tell mediatR where to find the handler
-            services.AddAutoMapper(typeof(MappingProfile).Assembly);
+            services.AddApplicationServices(this.config);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
