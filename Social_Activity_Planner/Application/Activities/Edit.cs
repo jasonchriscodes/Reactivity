@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using AutoMapper;
+using Domain;
 using MediatR;
 using Persistence;
 
@@ -13,16 +14,19 @@ namespace Application.Activities
         public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext context;
+            private readonly IMapper mapper;
 
-            public Handler(DataContext context)
+            public Handler(DataContext context, IMapper mapper)
             {
                 this.context = context;
+                this.mapper = mapper;
             }
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 var activity = await this.context.Activities.FindAsync(request.Activity.Id);
-                activity.Title = request.Activity.Title ?? activity.Title;
+                
+                this.mapper.Map(request.Activity, activity); // map each property inside request activity to the activity in our database
                 await this.context.SaveChangesAsync();
                 return Unit.Value;
             }
