@@ -4,9 +4,9 @@ using Persistence;
 
 namespace Application.Activities
 {
-    public class Create
+    public class Edit
     {
-        public class Command: IRequest // command did not return anything
+        public class Command: IRequest
         {
             public Activity Activity { get; set; }
         }
@@ -14,19 +14,15 @@ namespace Application.Activities
         {
             private readonly DataContext context;
 
-            public Handler(DataContext context) // inject data context
+            public Handler(DataContext context)
             {
                 this.context = context;
             }
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <param name="request"></param>
-            /// <param name="cancellationToken"></param>
-            /// <returns>value of unit, letting API know we finish this method</returns>
+
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                this.context.Activities.Add(request.Activity); // adding the activity in memory, not database so does not need asynchronous version
+                var activity = await this.context.Activities.FindAsync(request.Activity.Id);
+                activity.Title = request.Activity.Title ?? activity.Title;
                 await this.context.SaveChangesAsync();
                 return Unit.Value;
             }
