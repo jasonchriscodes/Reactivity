@@ -29,44 +29,6 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "client-app", "client-app\",
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "60890"
-	EndProjectSection
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.VirtualPath = "/localhost_60890"
-		Debug.AspNetCompiler.PhysicalPath = "client-app\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_60890\"
-		Debug.AspNetCompiler.Updateable = "true"
-		Debug.AspNetCompiler.ForceOverwrite = "true"
-		Debug.AspNetCompiler.FixedNames = "false"
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_60890"
-		Release.AspNetCompiler.PhysicalPath = "client-app\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_60890\"
-		Release.AspNetCompiler.Updateable = "true"
-		Release.AspNetCompiler.ForceOverwrite = "true"
-		Release.AspNetCompiler.FixedNames = "false"
-		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "60890"
-		SlnRelativePath = "client-app\"
-	EndProjectSection
-EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "client-app", "client-app\", "{84416244-3F10-440A-8D6F-51F141E20A62}"
-	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.8"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_60890"
-		Debug.AspNetCompiler.PhysicalPath = "client-app\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_60890\"
-		Debug.AspNetCompiler.Updateable = "true"
-		Debug.AspNetCompiler.ForceOverwrite = "true"
-		Debug.AspNetCompiler.FixedNames = "false"
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_60890"
-		Release.AspNetCompiler.PhysicalPath = "client-app\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_60890\"
-		Release.AspNetCompiler.Updateable = "true"
-		Release.AspNetCompiler.ForceOverwrite = "true"
-		Release.AspNetCompiler.FixedNames = "false"
-		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "60890"
 		SlnRelativePath = "client-app\"
 	EndProjectSection
 EndProject
@@ -96,10 +58,6 @@ Global
 		{AB88E4FD-2D8A-468F-9F64-E1C4D41A4404}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB88E4FD-2D8A-468F-9F64-E1C4D41A4404}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{AB88E4FD-2D8A-468F-9F64-E1C4D41A4404}.Release|Any CPU.Build.0 = Debug|Any CPU
-		{84416244-3F10-440A-8D6F-51F141E20A62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{84416244-3F10-440A-8D6F-51F141E20A62}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{84416244-3F10-440A-8D6F-51F141E20A62}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{84416244-3F10-440A-8D6F-51F141E20A62}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
