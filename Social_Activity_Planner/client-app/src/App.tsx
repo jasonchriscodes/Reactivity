@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
+import { Header, List } from 'semantic-ui-react';
 
 function App() {
     const [activities, setActivities] = useState([]); // set activity initial state
@@ -14,17 +15,15 @@ function App() {
         })
     }, []) // use empty array to ensure function only runs 1 times, not endless loop
   return (
-    <div className="App">
-      <header className="App-header">
-              <img src={logo} className="App-logo" alt="logo" />
-              <ul>
-                  {activities.map((activity: any)=> ( // need to add type of activity
-                      <li key={activity.id}>
-                          {activity.title}
-                      </li>
-                   ))}
-              </ul>
-      </header>
+      <div>
+          <Header as='h2' icon='users' content='ActivityBud' />
+          <List>
+              {activities.map((activity: any) => ( // need to add type of activity
+                  <List.Item key={activity.id}>
+                      {activity.title}
+                  </List.Item>
+              ))}
+          </List>
     </div>
   );
 }
