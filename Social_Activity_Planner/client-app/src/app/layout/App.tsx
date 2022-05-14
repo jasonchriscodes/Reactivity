@@ -17,7 +17,12 @@ function App() {
   useEffect(() => {
     // function with no parameter
     agent.Activities.list().then((response) => {
-      setActivities(response); // set activity to the response we get from axios, get type safety from activity.ts
+      let activities: Activity[] = [];
+      response.forEach((activity) => {
+        activity.date = activity.date.split("T")[0]; // only date not include time info
+        activities.push(activity);
+      });
+      setActivities(activities); // set activity to the response we get from axios, get type safety from activity.ts
     });
   }, []); // use empty array to ensure function only runs 1 times, not endless loop
   // <> and </> is Fragment shortcut
