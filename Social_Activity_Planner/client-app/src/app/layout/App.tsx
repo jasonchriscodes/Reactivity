@@ -10,6 +10,7 @@ function App() {
   const [selectedActivity, setSelectedActivity] = useState<
     Activity | undefined // undefine is not activity so we need union type which also means we can use undefined
   >(undefined); // set selected activity initial state
+  const [editMode, setEditMode] = useState(false); // set edit mode initial state
 
   // fetch activities from API server
   useEffect(() => {
@@ -31,15 +32,30 @@ function App() {
   function handleCancelSelectActivity() {
     setSelectedActivity(undefined);
   }
+
+  function handleFormOpen(id?: string) {
+    // id? means id is optional
+    // check if id is empty or not, if empty handleSelectActivity will be called, if not handleEditActivity will be called
+    id ? handleSelectActivity(id) : handleCancelSelectActivity();
+    setEditMode(true);
+  }
+
+  function handleFormClose() {
+    setEditMode(false);
+  }
+
   return (
     <>
-      <NavBar />
+      <NavBar openForm={handleFormOpen} />
       <Container style={{ marginTop: "7em" }}>
         <ActivityDashboard
           activities={activities}
           selectedActivity={selectedActivity}
           selectActivity={handleSelectActivity}
           cancelSelectActivity={handleCancelSelectActivity}
+          editMode={editMode}
+          openForm={handleFormOpen}
+          closeForm={handleFormClose}
         />
       </Container>
     </>
