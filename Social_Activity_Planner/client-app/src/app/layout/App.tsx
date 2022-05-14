@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import logo from './logo.svg';
-import './App.css';
 import axios from 'axios';
 import { Header, List } from 'semantic-ui-react';
 
@@ -10,7 +8,6 @@ function App() {
     // fetch activities from API server 
     useEffect(() => { // function with no parameter 
         axios.get('http://localhost:5000/api/activities').then(response => {
-            console.log(response); // see axios in console
             setActivities(response.data); // set activity to the response we get from axios
         })
     }, []) // use empty array to ensure function only runs 1 times, not endless loop
