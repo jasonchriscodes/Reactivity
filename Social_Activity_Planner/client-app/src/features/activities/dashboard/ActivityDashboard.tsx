@@ -1,5 +1,4 @@
-import React from "react";
-import { Grid, GridColumn, List } from "semantic-ui-react";
+import { Grid } from "semantic-ui-react";
 import { Activity } from "../../../app/models/activity";
 import ActivityDetails from "../details/ActivityDetails";
 import ActivityForm from "../form/ActivityForm";
@@ -33,21 +32,21 @@ export default function ActivityDashboard({
       </Grid.Column>
       <Grid.Column width="6">
         {/* && means anything to the right will execute as long as activities[0] is NOT null or undefine */}
-        {selectedActivity && !editMode && 
+        {selectedActivity && !editMode && (
           <ActivityDetails
             activity={selectedActivity}
             cancelSelectActivity={cancelSelectActivity}
             openForm={openForm}
           />
-        }
+        )}
         {/* only display activity form on editMode */}
-        {editMode && 
+        {editMode && (
           <ActivityForm
             closeForm={closeForm}
             activity={selectedActivity}
             createOrEdit={createOrEdit}
           />
-        }
+        )}
       </Grid.Column>
     </Grid>
   );
