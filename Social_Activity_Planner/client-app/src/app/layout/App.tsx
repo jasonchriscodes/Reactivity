@@ -44,6 +44,18 @@ function App() {
     setEditMode(false);
   }
 
+  // if there is activity has id then it will set activity with the activity that passes in,
+  // if not it will set a new activity
+  function handleCreateOrEditActivity(activity: Activity) {
+    activity.id
+      ? setActivities([
+          ...activities.filter((x) => x.id !== activity.id),
+          activity,
+        ])
+      : setActivities([...activities, activity]);
+    setSelectedActivity(activity); // display detail activity after done
+  }
+
   return (
     <>
       <NavBar openForm={handleFormOpen} />
@@ -56,6 +68,7 @@ function App() {
           editMode={editMode}
           openForm={handleFormOpen}
           closeForm={handleFormClose}
+          createOrEdit={handleCreateOrEditActivity}
         />
       </Container>
     </>
