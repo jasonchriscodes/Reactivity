@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Container } from "semantic-ui-react";
 import { Activity } from "../models/activity";
 import NavBar from "./NavBar";
 import ActivityDashboard from "../../features/activities/dashboard/ActivityDashboard";
 import { v4 as uuid } from "uuid";
+import agent from "../api/agent";
 
 function App() {
   const [activities, setActivities] = useState<Activity[]>([]); // set activity initial state
@@ -16,11 +16,9 @@ function App() {
   // fetch activities from API server
   useEffect(() => {
     // function with no parameter
-    axios
-      .get<Activity[]>("http://localhost:5000/api/activities")
-      .then((response) => {
-        setActivities(response.data); // set activity to the response we get from axios, get type safety from activity.ts
-      });
+    agent.Activities.list().then((response) => {
+      setActivities(response); // set activity to the response we get from axios, get type safety from activity.ts
+    });
   }, []); // use empty array to ensure function only runs 1 times, not endless loop
   // <> and </> is Fragment shortcut
 
