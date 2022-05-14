@@ -7,6 +7,9 @@ import ActivityDashboard from "../../features/activities/dashboard/ActivityDashb
 
 function App() {
   const [activities, setActivities] = useState<Activity[]>([]); // set activity initial state
+  const [selectedActivity, setSelectedActivity] = useState<
+    Activity | undefined // undefine is not activity so we need union type which also means we can use undefined
+  >(undefined); // set selected activity initial state
 
   // fetch activities from API server
   useEffect(() => {
@@ -18,11 +21,26 @@ function App() {
       });
   }, []); // use empty array to ensure function only runs 1 times, not endless loop
   // <> and </> is Fragment shortcut
+
+  // function to handle activity selection
+  function handleSelectActivity(id: string) {
+    setSelectedActivity(activities.find((x) => x.id === id)); // finding matching object that matches id
+  }
+
+  // function to handle activity cancelation
+  function handleCancelSelectActivity() {
+    setSelectedActivity(undefined);
+  }
   return (
     <>
       <NavBar />
       <Container style={{ marginTop: "7em" }}>
-        <ActivityDashboard activities={activities} />
+        <ActivityDashboard
+          activities={activities}
+          selectedActivity={selectedActivity}
+          selectActivity={handleSelectActivity}
+          cancelSelectActivity={handleCancelSelectActivity}
+        />
       </Container>
     </>
   );
