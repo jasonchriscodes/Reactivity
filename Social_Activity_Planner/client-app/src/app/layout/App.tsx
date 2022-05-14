@@ -5,6 +5,7 @@ import NavBar from "./NavBar";
 import ActivityDashboard from "../../features/activities/dashboard/ActivityDashboard";
 import { v4 as uuid } from "uuid";
 import agent from "../api/agent";
+import LoadingComponent from "./LoadingComponent";
 
 function App() {
   const [activities, setActivities] = useState<Activity[]>([]); // set activity initial state
@@ -12,6 +13,7 @@ function App() {
     Activity | undefined // undefine is not activity so we need union type which also means we can use undefined
   >(undefined); // set selected activity initial state
   const [editMode, setEditMode] = useState(false); // set edit mode initial state
+  const [loading, setLoading] = useState(true); // set loading initial state
 
   // fetch activities from API server
   useEffect(() => {
@@ -23,6 +25,7 @@ function App() {
         activities.push(activity);
       });
       setActivities(activities); // set activity to the response we get from axios, get type safety from activity.ts
+      setLoading(false);
     });
   }, []); // use empty array to ensure function only runs 1 times, not endless loop
   // <> and </> is Fragment shortcut
@@ -63,6 +66,8 @@ function App() {
   function handleDeleteActivity(id: string) {
     setActivities([...activities.filter((x) => x.id !== id)]);
   }
+
+  if (loading) return <LoadingComponent content="Loading app" />;
 
   return (
     <>
