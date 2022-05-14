@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Header, List } from 'semantic-ui-react';
 import { Activity } from '../models/activity';
+import NavBar from './NavBar';
 
 function App() {
     const [activities, setActivities] = useState<Activity[]>([]); // set activity initial state
@@ -14,11 +15,11 @@ function App() {
     }, []) // use empty array to ensure function only runs 1 times, not endless loop
   return (
       <div>
-          <Header as='h2' icon='users' content='ActivityBud' />
+          <NavBar/>
           <List>
               {activities.map(activity => ( // need to add type of activity
                   <List.Item key={activity.id}>
-                      {activity.title} // get type safety because we import activity.ts
+                      {activity.title} 
                   </List.Item>
               ))}
           </List>
