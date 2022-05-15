@@ -24,27 +24,6 @@ function App() {
   }, [activityStore]); // pass activity store as dependency
   // <> and </> is Fragment shortcut
 
-  // function to handle activity selection
-  function handleSelectActivity(id: string) {
-    setSelectedActivity(activities.find((x) => x.id === id)); // finding matching object that matches id
-  }
-
-  // function to handle activity cancelation
-  function handleCancelSelectActivity() {
-    setSelectedActivity(undefined);
-  }
-
-  function handleFormOpen(id?: string) {
-    // id? means id is optional
-    // check if id is empty or not, if empty handleSelectActivity will be called, if not handleEditActivity will be called
-    id ? handleSelectActivity(id) : handleCancelSelectActivity();
-    setEditMode(true);
-  }
-
-  function handleFormClose() {
-    setEditMode(false);
-  }
-
   // if there is activity has id then it will set activity with the activity that passes in,
   // if not it will set a new activity
   function handleCreateOrEditActivity(activity: Activity) {
@@ -84,16 +63,10 @@ function App() {
 
   return (
     <>
-      <NavBar openForm={handleFormOpen} />
+      <NavBar />
       <Container style={{ marginTop: "7em" }}>
         <ActivityDashboard
           activities={activityStore.activities}
-          selectedActivity={selectedActivity}
-          selectActivity={handleSelectActivity}
-          cancelSelectActivity={handleCancelSelectActivity}
-          editMode={editMode}
-          openForm={handleFormOpen}
-          closeForm={handleFormClose}
           createOrEdit={handleCreateOrEditActivity}
           deleteActivity={handleDeleteActivity}
           submitting={submitting}

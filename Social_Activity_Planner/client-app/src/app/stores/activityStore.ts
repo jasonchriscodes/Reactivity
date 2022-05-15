@@ -4,7 +4,7 @@ import agent from "../api/agent";
 
 export default class ActivityStore {
   activities: Activity[] = [];
-  selectedActivity: Activity | null = null;
+  selectedActivity: Activity | undefined = undefined;
   editMode = false;
   loading = false;
   loadingInitial = false;
@@ -31,5 +31,25 @@ export default class ActivityStore {
 
   setLoadingInitial = (state: boolean) => {
     this.loadingInitial = state;
+  };
+
+  selectActivity = (id: string) => {
+    this.selectedActivity = this.activities.find((a) => a.id === id); // finding matching object that matches id
+    this.editMode = false;
+  };
+
+  cancelSelectedActivity = () => {
+    this.selectedActivity = undefined;
+  };
+
+  openForm = (id?: string) => {
+    // id? means id is optional
+    // check if id is empty or not, if empty handleSelectActivity will be called, if not handleEditActivity will be called
+    id ? this.selectActivity(id) : this.cancelSelectedActivity();
+    this.editMode = true;
+  };
+
+  closeForm = () => {
+    this.editMode = false;
   };
 }
