@@ -23,7 +23,7 @@ namespace API.Controllers
   [HttpPost] // using post method to create activity (safer than get)
   public async Task<IActionResult> CreateActivity(Activity activity)// IActionResul give access to http response task such as return OK, badrequest, not found
   {
-   return Ok(await Mediator.Send(new Create.Command { Activity = activity }));
+   return HandleResult(await Mediator.Send(new Create.Command { Activity = activity }));
   }
 
   [HttpPut("{id}")] // put for updating resources

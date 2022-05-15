@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using Application.Core;
+using Domain;
 using FluentValidation;
 using MediatR;
 using Persistence;
@@ -7,7 +8,7 @@ namespace Application.Activities
 {
  public class Create
  {
-  public class Command : IRequest // command did not return anything
+  public class Command : IRequest<Result<Unit>> // command did not return anything
   {
    public Activity Activity { get; set; }
   }
@@ -19,7 +20,7 @@ namespace Application.Activities
     RuleFor(x => x.Activity).SetValidator(new ActivityValidator());
    }
   }
-  public class Handler : IRequestHandler<Command>
+  public class Handler : IRequestHandler<Command, Result<Unit>>
   {
    private readonly DataContext context;
 
@@ -33,11 +34,14 @@ namespace Application.Activities
    /// <param name="request"></param>
    /// <param name="cancellationToken"></param>
    /// <returns>value of unit, letting API know we finish this method</returns>
-   public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+   public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
    {
     this.context.Activities.Add(request.Activity); // adding the activity in memory, not database so does not need asynchronous version
-    await this.context.SaveChangesAsync();
-    return Unit.Value;
+    var result = await this.context.SaveChangesAsync() > 0; // if save changes is successful, result will be true
+
+    if (!result) return Result<Unit>.Failure("Failed to create activity");
+
+    return Result<Unit>.Success(Unit.Value);
    }
   }
  }
