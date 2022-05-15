@@ -36,7 +36,7 @@ namespace API.Controllers
   [HttpDelete("{id}")] // to delete resource
   public async Task<IActionResult> DeleteActivity(Guid id)// IActionResult (doest not require a type)
   {
-   return Ok(await Mediator.Send(new Delete.Command { Id = id }));
+   return HandleResult(await Mediator.Send(new Delete.Command { Id = id }));
   }
  }
 }
