@@ -101,6 +101,9 @@ export default class ActivityStore {
       runInAction(() => {
         this.activities = [...this.activities.filter((a) => a.id !== id)];
         // delete form if activity deleted in dashboard
+        if (this.selectedActivity?.id === id) {
+          this.cancelSelectedActivity();
+        }
         this.loading = false;
       });
     } catch (error) {
