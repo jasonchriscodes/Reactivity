@@ -7,10 +7,11 @@ import ActivityList from "./ActivityList";
 
 export default observer(function ActivityDashboard() {
   const { activityStore } = useStore();
+  const { loadActivities, activityRegistry } = activityStore;
 
   // fetch activities from API server
   useEffect(() => {
-    activityStore.loadActivities();
+    if (activityRegistry.size === 0) loadActivities();
   }, [activityStore]); // pass activity store as dependency
   // <> and </> is Fragment shortcut
 
