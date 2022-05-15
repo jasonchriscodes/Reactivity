@@ -29,7 +29,6 @@ export default function ActivityForm({
 
   function handleSubmit() {
     createOrEdit(activity);
-    closeForm();
   }
 
   // handle on change so we can in text input
