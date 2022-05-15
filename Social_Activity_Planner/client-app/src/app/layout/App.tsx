@@ -14,6 +14,7 @@ function App() {
   >(undefined); // set selected activity initial state
   const [editMode, setEditMode] = useState(false); // set edit mode initial state
   const [loading, setLoading] = useState(true); // set loading initial state
+  const [submitting, setSubmitting] = useState(false); // set submitting initial state
 
   // fetch activities from API server
   useEffect(() => {
@@ -54,13 +55,26 @@ function App() {
   // if there is activity has id then it will set activity with the activity that passes in,
   // if not it will set a new activity
   function handleCreateOrEditActivity(activity: Activity) {
-    activity.id
-      ? setActivities([
+    setSubmitting(true);
+    if (activity.id) {
+      agent.Activities.update(activity).then(() => {
+        setActivities([
           ...activities.filter((x) => x.id !== activity.id),
           activity,
-        ])
-      : setActivities([...activities, { ...activity, id: uuid() }]);
-    setSelectedActivity(activity); // display detail activity after done
+        ]);
+        setSelectedActivity(activity); // display detail activity after done
+        setEditMode(false);
+        setSubmitting(false);
+      });
+    } else {
+      activity.id = uuid();
+      agent.Activities.create(activity).then(() => {
+        setActivities([...activities, activity])
+        setSelectedActivity(activity);
+        setEditMode(false);
+        setSubmitting(false);
+      });
+    }
   }
 
   function handleDeleteActivity(id: string) {
@@ -83,6 +97,7 @@ function App() {
           closeForm={handleFormClose}
           createOrEdit={handleCreateOrEditActivity}
           deleteActivity={handleDeleteActivity}
+          submitting={submitting}
         />
       </Container>
     </>
