@@ -6,8 +6,10 @@ import ActivityDashboard from "../../features/activities/dashboard/ActivityDashb
 import { v4 as uuid } from "uuid";
 import agent from "../api/agent";
 import LoadingComponent from "./LoadingComponent";
+import { useStore } from "../stores/store";
 
 function App() {
+  const { activityStore } = useStore();
   const [activities, setActivities] = useState<Activity[]>([]); // set activity initial state
   const [selectedActivity, setSelectedActivity] = useState<
     Activity | undefined // undefine is not activity so we need union type which also means we can use undefined
@@ -92,6 +94,7 @@ function App() {
     <>
       <NavBar openForm={handleFormOpen} />
       <Container style={{ marginTop: "7em" }}>
+        <h2>{activityStore.title}</h2>
         <ActivityDashboard
           activities={activities}
           selectedActivity={selectedActivity}
