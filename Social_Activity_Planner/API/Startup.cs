@@ -1,4 +1,5 @@
 using API.Extensions;
+using FluentValidation.AspNetCore;
 using Application.Activities;
 using Application.Core;
 using AutoMapper;
@@ -9,44 +10,46 @@ using Persistence;
 
 namespace API
 {
-    public class Startup
-    {
-        private readonly IConfiguration config;
+ public class Startup
+ {
+  private readonly IConfiguration config;
 
-        public Startup(IConfiguration config)
-        {
-            this.config = config;
-        }
+  public Startup(IConfiguration config)
+  {
+   this.config = config;
+  }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddControllers();
-            services.AddApplicationServices(this.config);
-        }
+  // This method gets called by the runtime. Use this method to add services to the container.
+  public void ConfigureServices(IServiceCollection services)
+  {
+   services.AddControllers().AddFluentValidation(config =>{
+    config.RegisterValidatorsFromAssemblyContaining<Create>();
+   });
+   services.AddApplicationServices(this.config);
+  }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebAPIv5 v1"));
-            }
+  // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+  public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+  {
+   if (env.IsDevelopment())
+   {
+    app.UseDeveloperExceptionPage();
+    app.UseSwagger();
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebAPIv5 v1"));
+   }
 
-            //app.UseHttpsRedirection();
+   //app.UseHttpsRedirection();
 
-            app.UseRouting();
+   app.UseRouting();
 
-            app.UseCors("CorsPolicy");
+   app.UseCors("CorsPolicy");
 
-            app.UseAuthorization();
+   app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
-        }
-    }
+   app.UseEndpoints(endpoints =>
+   {
+    endpoints.MapControllers();
+   });
+  }
+ }
 }
