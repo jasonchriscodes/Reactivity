@@ -36,7 +36,9 @@ export default function TestErrors() {
   }
 
   function handleValidationError() {
-    axios.post(baseUrl + "activities", {}).catch((err) => console.log(err));
+    axios
+      .post(baseUrl + "activities", {})
+      .catch((err) => console.log(err.response));
   }
 
   return (
