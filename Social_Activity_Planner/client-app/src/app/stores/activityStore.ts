@@ -93,4 +93,21 @@ export default class ActivityStore {
       });
     }
   };
+
+  deleteActivity = async (id: string) => {
+    this.loading = true;
+    try {
+      await agent.Activities.delete(id);
+      runInAction(() => {
+        this.activities = [...this.activities.filter((a) => a.id !== id)];
+        // delete form if activity deleted in dashboard
+        this.loading = false;
+      });
+    } catch (error) {
+      console.log(error);
+      runInAction(() => {
+        this.loading = false;
+      });
+    }
+  };
 }
