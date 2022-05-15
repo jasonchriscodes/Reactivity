@@ -12,7 +12,7 @@ export default observer(function ActivityDashboard() {
   // fetch activities from API server
   useEffect(() => {
     if (activityRegistry.size <= 1) loadActivities();
-  }, [activityStore]); // pass activity store as dependency
+  }, [activityRegistry.size, loadActivities]); // pass activity store as dependency
   // <> and </> is Fragment shortcut
 
   if (activityStore.loadingInitial)
