@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Container } from "semantic-ui-react";
+import { Container } from "semantic-ui-react";
 import { Activity } from "../models/activity";
 import NavBar from "./NavBar";
 import ActivityDashboard from "../../features/activities/dashboard/ActivityDashboard";
@@ -16,22 +16,12 @@ function App() {
     Activity | undefined // undefine is not activity so we need union type which also means we can use undefined
   >(undefined); // set selected activity initial state
   const [editMode, setEditMode] = useState(false); // set edit mode initial state
-  const [loading, setLoading] = useState(true); // set loading initial state
   const [submitting, setSubmitting] = useState(false); // set submitting initial state
 
   // fetch activities from API server
   useEffect(() => {
-    // function with no parameter
-    agent.Activities.list().then((response) => {
-      let activities: Activity[] = [];
-      response.forEach((activity) => {
-        activity.date = activity.date.split("T")[0]; // only date not include time info
-        activities.push(activity);
-      });
-      setActivities(activities); // set activity to the response we get from axios, get type safety from activity.ts
-      setLoading(false);
-    });
-  }, []); // use empty array to ensure function only runs 1 times, not endless loop
+    activityStore.loadActivities();
+  }, [activityStore]); // pass activity store as dependency
   // <> and </> is Fragment shortcut
 
   // function to handle activity selection
@@ -89,20 +79,15 @@ function App() {
     setActivities([...activities.filter((x) => x.id !== id)]);
   }
 
-  if (loading) return <LoadingComponent content="Loading app" />;
+  if (activityStore.loadingInitial)
+    return <LoadingComponent content="Loading app" />;
 
   return (
     <>
       <NavBar openForm={handleFormOpen} />
       <Container style={{ marginTop: "7em" }}>
-        <h2>{activityStore.title}</h2>
-        <Button
-          content="Add exclamation!"
-          positive
-          onClick={activityStore.setTitle}
-        />
         <ActivityDashboard
-          activities={activities}
+          activities={activityStore.activities}
           selectedActivity={selectedActivity}
           selectActivity={handleSelectActivity}
           cancelSelectActivity={handleCancelSelectActivity}
