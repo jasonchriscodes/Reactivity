@@ -59,7 +59,11 @@ export default observer(function ActivityForm() {
   if (loadingInitial) return <LoadingComponent content="Loading activity" />;
   return (
     <Segment clearing>
-      <Formik initialValues={activity} onSubmit={(value) => console.log(value)}>
+      <Formik
+        enableReinitialize
+        initialValues={activity}
+        onSubmit={(value) => console.log(value)}
+      >
         {({ values: activity, handleChange, handleSubmit }) => (
           <Form onSubmit={handleSubmit} autoComplete="off">
             <Form.Input
