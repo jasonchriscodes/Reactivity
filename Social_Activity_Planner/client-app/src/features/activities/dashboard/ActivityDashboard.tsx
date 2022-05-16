@@ -17,7 +17,7 @@ export default observer(function ActivityDashboard() {
   // <> and </> is Fragment shortcut
 
   if (activityStore.loadingInitial)
-    return <LoadingComponent content="Loading app" />;
+    return <LoadingComponent content="Loading activities..." />;
 
   return (
     <Grid>
