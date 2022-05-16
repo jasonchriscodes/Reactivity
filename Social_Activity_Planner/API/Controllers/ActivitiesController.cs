@@ -1,13 +1,14 @@
 ﻿using Application.Activities;
 using Domain;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
  public class ActivitiesController : BaseApiController
  {
 
+  [AllowAnonymous]
   // end points
   [HttpGet] // using get to get all activity (result will be shown in URL)
   public async Task<IActionResult> GetActivities()
