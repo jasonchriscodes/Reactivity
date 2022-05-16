@@ -1,5 +1,4 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { config } from "process";
 import { toast } from "react-toastify";
 import { history } from "../..";
 import { Activity } from "../models/activity";
@@ -26,7 +25,7 @@ axios.interceptors.response.use(
         if (typeof data === "string") {
           toast.error(data);
         }
-        if (config.method == "get" && data.errors.hasOwnProperty("id")) {
+        if (config.method === "get" && data.errors.hasOwnProperty("id")) {
           history.push("/not-found");
         }
         if (data.errors) {
