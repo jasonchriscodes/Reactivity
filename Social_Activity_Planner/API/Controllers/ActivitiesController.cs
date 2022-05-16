@@ -15,7 +15,6 @@ namespace API.Controllers
    return HandleResult(await Mediator.Send(new List.Query())); // get response back from mediator handler
   }
 
-  [Authorize]
   [HttpGet("{id}")] // using get to get an activity (result will be shown in URL)
   public async Task<IActionResult> GetActivities(Guid id)
   {
