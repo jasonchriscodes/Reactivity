@@ -40,7 +40,7 @@ export default observer(function ActivityForm() {
     description: Yup.string().required("The activity decription is required"),
     category: Yup.string().required(),
     city: Yup.string().required(),
-    date: Yup.string().required(),
+    date: Yup.string().required("Date is required").nullable(),
     venue: Yup.string().required(),
   });
 
