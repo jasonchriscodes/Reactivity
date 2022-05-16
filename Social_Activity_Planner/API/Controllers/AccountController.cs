@@ -1,4 +1,5 @@
 using API.DTOs;
+using API.Services;
 using Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,8 +13,10 @@ namespace API.Controllers
  {
   private readonly SignInManager<AppUser> signInManager;
   private readonly UserManager<AppUser> userManager;
-  public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+  private readonly TokenService tokenService;
+  public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, TokenService tokenService)
   {
+   this.tokenService = tokenService;
    this.userManager = userManager;
    this.signInManager = signInManager;
   }
@@ -33,7 +36,7 @@ namespace API.Controllers
     {
      DisplayName = user.DisplayName,
      Username = user.UserName,
-     Token = "This will be a token",
+     Token = this.tokenService.CreateToken(user),
      Image = null
     };
    }
