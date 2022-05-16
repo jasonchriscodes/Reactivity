@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using API.DTOs;
 using API.Services;
 using Domain;
@@ -35,13 +36,7 @@ namespace API.Controllers
 
    if (result.Succeeded)
    {
-    return new UserDto
-    {
-     DisplayName = user.DisplayName,
-     Username = user.UserName,
-     Token = this.tokenService.CreateToken(user),
-     Image = null
-    };
+    return CreateUserObject(user);
    }
 
    return Unauthorized();
@@ -69,16 +64,29 @@ namespace API.Controllers
 
    if (result.Succeeded)
    {
-    return new UserDto
-    {
-     DisplayName = user.DisplayName,
-     Username = user.UserName,
-     Token = this.tokenService.CreateToken(user),
-     Image = null
-    };
+    return CreateUserObject(user);
    }
 
    return BadRequest("Problem registering user");
+  }
+
+  [Authorize]
+  [HttpGet]
+  public async Task<ActionResult<UserDto>> GetCurrentUser()
+  {
+   var user = await this.userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
+
+   return CreateUserObject(user);
+  }
+  private UserDto CreateUserObject(AppUser user)
+  {
+   return new UserDto
+   {
+    DisplayName = user.DisplayName,
+    Username = user.UserName,
+    Token = this.tokenService.CreateToken(user),
+    Image = null
+   };
   }
  }
 }
