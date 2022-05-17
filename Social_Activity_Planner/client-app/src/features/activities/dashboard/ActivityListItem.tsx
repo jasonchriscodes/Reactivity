@@ -21,6 +21,14 @@ export default function ActivityListItem({ activity }: Props) {
             style={{ textAlign: "center" }}
           />
         )}
+        {activity.isCancelled && (
+          <Label
+            attached="top"
+            color="red"
+            content="Cancelled"
+            style={{ textAlign: "center" }}
+          />
+        )}
         <Item.Group>
           <Item>
             <Item.Image
