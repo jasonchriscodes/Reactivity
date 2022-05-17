@@ -1,6 +1,9 @@
 ﻿using Application.Core;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Domain;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Activities
@@ -10,7 +13,7 @@ namespace Application.Activities
   /// <summary>
   /// Query class that fetching activity 
   /// </summary> return activity
-  public class Query : IRequest<Result<Activity>>
+  public class Query : IRequest<Result<ActivityDto>>
   {
    public Guid Id { get; set; }
   }
@@ -18,7 +21,7 @@ namespace Application.Activities
   /// <summary>
   /// Handler class
   /// </summary> return activity
-  public class Handler : IRequestHandler<Query, Result<Activity>>
+  public class Handler : IRequestHandler<Query, Result<ActivityDto>>
   {
    private readonly DataContext context;
 
@@ -26,8 +29,10 @@ namespace Application.Activities
    // Handler constructor
    /// </summary>
    /// <param name="context"></param>
-   public Handler(DataContext context)
+   private readonly IMapper mapper;
+   public Handler(DataContext context, IMapper mapper)
    {
+    this.mapper = mapper;
     this.context = context;
    }
    /// <summary>
@@ -36,10 +41,12 @@ namespace Application.Activities
    /// <param name="request"></param>
    /// <param name="cancellationToken"></param>
    /// <returns>activity of specific id</returns>
-   public async Task<Result<Activity>> Handle(Query request, CancellationToken cancellationToken)
+   public async Task<Result<ActivityDto>> Handle(Query request, CancellationToken cancellationToken)
    {
-    var activity = await this.context.Activities.FindAsync(request.Id);
-    return Result<Activity>.Success(activity);
+    var activity = await this.context.Activities
+    .ProjectTo<ActivityDto>(this.mapper.ConfigurationProvider)
+    .FirstOrDefaultAsync(x => x.Id == request.Id);
+    return Result<ActivityDto>.Success(activity);
    }
   }
  }
