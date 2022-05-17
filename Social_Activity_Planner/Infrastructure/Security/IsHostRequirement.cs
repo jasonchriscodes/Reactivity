@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Infrastructure.Security
@@ -28,7 +29,10 @@ namespace Infrastructure.Security
    var activityId = Guid.Parse(this.httpContextAccessor.HttpContext?.Request.RouteValues
    .SingleOrDefault(x => x.Key == "id").Value?.ToString()); // get the activity id from the resource
 
-   var attendee = this.dbcontext.ActivityAttendees.FindAsync(userId, activityId).Result; // get the attendee from the database
+   var attendee = this.dbcontext.ActivityAttendees
+   .AsNoTracking()
+   .SingleOrDefaultAsync(x => x.AppUserId == userId && x.ActivityId == activityId)
+   .Result; // get the attendee from the database
 
    if (attendee == null) return Task.CompletedTask;
 
