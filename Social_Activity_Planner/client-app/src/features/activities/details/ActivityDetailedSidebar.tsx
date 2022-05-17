@@ -1,9 +1,7 @@
-import React from "react";
 import { Segment, List, Label, Item, Image } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { Activity } from "../../../app/models/activity";
-import is from "date-fns/esm/locale/is/index.js";
 
 interface Props {
   activity: Activity;
