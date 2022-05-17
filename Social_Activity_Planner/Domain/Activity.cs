@@ -9,6 +9,6 @@
   public string Category { get; set; }
   public string City { get; set; }
   public string Venue { get; set; }
-  public ICollection<ActivityAttendee> Attendees { get; set; }
+  public ICollection<ActivityAttendee> Attendees { get; set; } = new List<ActivityAttendee>();//initialize attendee inside the entity, so we don't get a null reference when try and add something in collection (get empty array back to attendee instead of null)
  }
 }
