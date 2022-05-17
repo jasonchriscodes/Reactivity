@@ -14,7 +14,13 @@ namespace Application.Core
   public MappingProfile()
   {
    CreateMap<Activity, Activity>(); // map from Activity to Activity must match with that in edit handler
-   CreateMap<Activity, ActivityDto>(); // map from Activity to ActivityDto
+   CreateMap<Activity, ActivityDto>() // map from Activity to ActivityDto
+   .ForMember(d => d.HostUsername, opt => opt.MapFrom(s => s.Attendees
+   .FirstOrDefault(x => x.IsHost).AppUser.DisplayName));
+   CreateMap<ActivityAttendee, Profiles.Profile>() // map from AppUser to Profile
+   .ForMember(d => d.DisplayName, opt => opt.MapFrom(s => s.AppUser.DisplayName))
+   .ForMember(d => d.Username, opt => opt.MapFrom(s => s.AppUser.UserName))
+   .ForMember(d => d.Bio, opt => opt.MapFrom(s => s.AppUser.Bio));
   }
  }
 }
