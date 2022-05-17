@@ -28,7 +28,7 @@ namespace Application.Activities
    {
     var activity = await this.context.Activities
     .Include(x => x.Attendees).ThenInclude(u => u.AppUser)
-    .FirstOrDefaultAsync(a => a.Id == request.Id, cancellationToken);
+    .SingleOrDefaultAsync(a => a.Id == request.Id);
 
     if (activity == null) return null;
 
@@ -38,13 +38,13 @@ namespace Application.Activities
     if (user == null) return null;
 
     var hostUsername = activity.Attendees.FirstOrDefault(
-        a => a.IsHost)?.AppUser?.UserName;
+        x => x.IsHost)?.AppUser?.UserName;
 
-    var attendance = activity.Attendees.FirstOrDefault(a => a.AppUser.UserName == user.UserName);
+    var attendance = activity.Attendees.FirstOrDefault(x => x.AppUser.UserName == user.UserName);
 
     if (attendance != null && hostUsername == user.UserName)
     {
-     activity.isCancelled = !activity.isCancelled;
+     activity.IsCancelled = !activity.IsCancelled;
     }
     if (attendance != null && hostUsername != user.UserName)
     {
@@ -61,7 +61,7 @@ namespace Application.Activities
      activity.Attendees.Add(attendance);
     }
 
-    var result = await this.context.SaveChangesAsync(cancellationToken) > 0;
+    var result = await this.context.SaveChangesAsync() > 0;
 
     return result ? Result<Unit>.Success(Unit.Value) : Result<Unit>.Failure("Problem updating attendance");
    }

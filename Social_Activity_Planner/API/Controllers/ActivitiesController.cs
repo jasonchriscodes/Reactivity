@@ -35,6 +35,7 @@ namespace API.Controllers
    return HandleResult(await Mediator.Send(new Edit.Command { Activity = activity }));
   }
 
+  [Authorize(Policy = "IsActivityHost")]
   [HttpDelete("{id}")] // to delete resource
   public async Task<IActionResult> DeleteActivity(Guid id)// IActionResult (doest not require a type)
   {
