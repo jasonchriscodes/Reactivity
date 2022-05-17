@@ -1,5 +1,6 @@
 ﻿using Application.Activities;
 using Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -26,6 +27,7 @@ namespace API.Controllers
    return HandleResult(await Mediator.Send(new Create.Command { Activity = activity }));
   }
 
+  [Authorize(Policy = "IsActivityHost")] // using authorize to check if the user is the host of the activity
   [HttpPut("{id}")] // put for updating resources
   public async Task<IActionResult> EditActivity(Guid id, Activity activity) // add id to activity object before pass it to handler
   {
