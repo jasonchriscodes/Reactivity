@@ -7,6 +7,7 @@ using Application.Core;
 using Application.Activities;
 using Application.interfaces;
 using Infrastructure.Security;
+using Infrastructure.Photos;
 
 namespace API.Extensions
 {
@@ -38,6 +39,8 @@ namespace API.Extensions
    services.AddMediatR(typeof(List.Handler).Assembly); // tell mediatR where to find the handler
    services.AddAutoMapper(typeof(MappingProfile).Assembly);
    services.AddScoped<IUserAccessor, UserAccessor>();
+   services.Configure<CloudinarySettings>(config.GetSection("Cloudinary"));
+
    return services;
   }
  }
